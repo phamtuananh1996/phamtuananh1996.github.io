@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Biến ảnh sprites thành ảnh động với vuejs | Titblog&#39;s</title>
+  <meta name="description" content="Ảnh sprites là gì?Sprites là một hình ảnh lớn được tạo ra bằng cách gộp nhiều ảnh nhỏ lại với nhau theo một cách được định trước sao cho có thể tái sử dụng lại từng ảnh nhỏ mà không bị ảnh hưởng bởi c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Biến ảnh sprites thành ảnh động với vuejs">
+<meta property="og:url" content="https://phamtuananh1996.github.io/2019/09/15/bien-anh-sprites-thanh-anh-dong-voi-vuejs/index.html">
+<meta property="og:site_name" content="Phạm Tuấn Anh">
+<meta property="og:description" content="Ảnh sprites là gì?Sprites là một hình ảnh lớn được tạo ra bằng cách gộp nhiều ảnh nhỏ lại với nhau theo một cách được định trước sao cho có thể tái sử dụng lại từng ảnh nhỏ mà không bị ảnh hưởng bởi c">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png">
+<meta property="og:image" content="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.1997-6/p235x165/67539452_1159079340882542_8277748228300996608_n.png?_nc_cat=110&_nc_eui2=AeH2-OIUf83EPlhM5IGEZi74aLkSeDNWcKSrvRdsOkqEdn3BNjMAWULBFwWtEiXn2yNSrbycS4k812lEytZ8Cs1KgJWfxxNuQanFl3Rebv049Q&_nc_oc=AQnPO6loogCDtjBqtK6O4Jh5Fa_pXVGnqJ4JXcFkziKXFGDDnsEyRYuP15shcqg1TjQ&_nc_ht=scontent.fhan2-4.fna&oh=c43b6be170ac16f2e449bc149d1a2099&oe=5DFECA0E">
+<meta property="og:image" content="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.1997-6/s851x315/67530709_1159072887549854_2673552395128012800_n.png?_nc_cat=110&_nc_eui2=AeEylH9tKEBvrL0-otkHUeAQkmsPgTx2No0kxgYubflSqwvBbxD5OJjEeAVxNM3gVQOySKyaQWiSruhLdbMcVjmHS3RRhVYTaDE8zCvzLWQ8gQ&_nc_oc=AQnrfyZgqePF4bC4Fq_DjZUjfPoFyKMRd0FwqvYrQEsMxtXcZBAA1BnnYF9OkZlceRM&_nc_ht=scontent.fhan2-4.fna&oh=53889069282914a6029d4927539cf96d&oe=5E104D7F">
+<meta property="og:image" content="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png">
+<meta property="og:image" content="https://images.viblo.asia/6161d4d6-de76-4b2d-8ecf-b5034b503b11.gif">
+<meta property="article:published_time" content="2019-09-15T04:28:12.000Z">
+<meta property="article:modified_time" content="2024-01-04T00:39:10.946Z">
+<meta property="article:author" content="Phạm Tuấn Anh">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="vuejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://phamtuananh1996.github.io/2019/09/15/bien-anh-sprites-thanh-anh-dong-voi-vuejs/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Phạm Tuấn Anh" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://www.facebook.com/tittittit1996" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Phạm Tuấn Anh</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hà Nội, Việt Nam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>"Pursue excellence, and success will follow you"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Caddy-Server/" rel="tag">Caddy Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/" rel="tag">cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crud/" rel="tag">crud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extension/" rel="tag">extension</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/facebook/" rel="tag">facebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k6-io/" rel="tag">k6.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/" rel="tag">laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nuxtjs/" rel="tag">nuxtjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/package/" rel="tag">package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/performence/" rel="tag">performence</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/" rel="tag">server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/session/" rel="tag">session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket-io/" rel="tag">socket.io</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trick/" rel="tag">trick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unit-test/" rel="tag">unit test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuejs/" rel="tag">vuejs</a><span class="tag-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Caddy-Server/" style="font-size: 13px;">Caddy Server</a> <a href="/tags/cookie/" style="font-size: 13px;">cookie</a> <a href="/tags/crud/" style="font-size: 13px;">crud</a> <a href="/tags/extension/" style="font-size: 13.25px;">extension</a> <a href="/tags/facebook/" style="font-size: 13px;">facebook</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/k6-io/" style="font-size: 13.25px;">k6.io</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/nuxtjs/" style="font-size: 13.25px;">nuxtjs</a> <a href="/tags/package/" style="font-size: 13px;">package</a> <a href="/tags/performence/" style="font-size: 13.25px;">performence</a> <a href="/tags/server/" style="font-size: 13.25px;">server</a> <a href="/tags/session/" style="font-size: 13px;">session</a> <a href="/tags/socket-io/" style="font-size: 13px;">socket.io</a> <a href="/tags/test/" style="font-size: 13.25px;">test</a> <a href="/tags/trick/" style="font-size: 13px;">trick</a> <a href="/tags/unit-test/" style="font-size: 13px;">unit test</a> <a href="/tags/vuejs/" style="font-size: 13.75px;">vuejs</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="title">Recommend(Laravel): Đặt tên sao cho chuẩn :))</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-01-04T00:39:10.962Z" itemprop="datePublished">04-01-2024</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2022/06/30/javascript-quiz/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/30/javascript-quiz/" class="title">Những câu hỏi JavaScript trình độ Advanced</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-30T09:02:40.000Z" itemprop="datePublished">30-06-2022</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 2 InfluxDB + Grafana)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:37:46.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:35:33.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="title">Hướng dẫn người dùng ngay trên chính website của bạn với vue-tour</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:33:43.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="posts-bien-anh-sprites-thanh-anh-dong-voi-vuejs" class="article article-type-posts" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Biến ảnh sprites thành ảnh động với vuejs
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/09/15/bien-anh-sprites-thanh-anh-dong-voi-vuejs/" class="article-date">
+	  <time datetime="2019-09-15T04:28:12.000Z" itemprop="datePublished">15-09-2019</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="article-tag-link" href="/tags/vuejs/" rel="tag">vuejs</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/09/15/bien-anh-sprites-thanh-anh-dong-voi-vuejs/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 5(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Anh-sprites-la-gi"><a href="#Anh-sprites-la-gi" class="headerlink" title="Ảnh sprites là gì?"></a>Ảnh sprites là gì?</h1><p>Sprites là một hình ảnh lớn được tạo ra bằng cách gộp nhiều ảnh nhỏ lại với nhau theo một cách được định trước sao cho có thể tái sử dụng lại từng ảnh nhỏ mà không bị ảnh hưởng bởi các ảnh khác. </p>
+<p>Kiểu như thế này : </p>
+<p><img src="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png" alt=""></p>
+<p>Hoặc các sticker của fb:</p>
+<p><img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.1997-6/p235x165/67539452_1159079340882542_8277748228300996608_n.png?_nc_cat=110&_nc_eui2=AeH2-OIUf83EPlhM5IGEZi74aLkSeDNWcKSrvRdsOkqEdn3BNjMAWULBFwWtEiXn2yNSrbycS4k812lEytZ8Cs1KgJWfxxNuQanFl3Rebv049Q&_nc_oc=AQnPO6loogCDtjBqtK6O4Jh5Fa_pXVGnqJ4JXcFkziKXFGDDnsEyRYuP15shcqg1TjQ&_nc_ht=scontent.fhan2-4.fna&oh=c43b6be170ac16f2e449bc149d1a2099&oe=5DFECA0E" alt=""></p>
+<p><img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.1997-6/s851x315/67530709_1159072887549854_2673552395128012800_n.png?_nc_cat=110&_nc_eui2=AeEylH9tKEBvrL0-otkHUeAQkmsPgTx2No0kxgYubflSqwvBbxD5OJjEeAVxNM3gVQOySKyaQWiSruhLdbMcVjmHS3RRhVYTaDE8zCvzLWQ8gQ&_nc_oc=AQnrfyZgqePF4bC4Fq_DjZUjfPoFyKMRd0FwqvYrQEsMxtXcZBAA1BnnYF9OkZlceRM&_nc_ht=scontent.fhan2-4.fna&oh=53889069282914a6029d4927539cf96d&oe=5E104D7F" alt=""></p>
+<h1 id="Muc-tieu-cua-bai-viet"><a href="#Muc-tieu-cua-bai-viet" class="headerlink" title="Mục tiêu của bài viết"></a>Mục tiêu của bài viết</h1><ul>
+<li><p>Qua bài viết này mình muốn chuyển các ảnh sprites đứng yên kia thành anh động bằng cách viết 1 <strong>component vuejs</strong>. </p>
+</li>
+<li><p>Các bạn cũng có thể tham khảo cách khác bằng <strong>canvas</strong> của HTML5 qua bài viết này : <a href="https://viblo.asia/p/cach-tao-anh-giong-gif-bang-javascript-khong-phai-ai-cung-biet-YWOZr6xrZQ0" target="_blank" rel="noopener">https://viblo.asia/p/cach-tao-anh-giong-gif-bang-javascript-khong-phai-ai-cung-biet-YWOZr6xrZQ0</a></p>
+</li>
+</ul>
+<h1 id="Uu-diem-so-voi-viec-dung-anh-gif"><a href="#Uu-diem-so-voi-viec-dung-anh-gif" class="headerlink" title="Ưu điểm so với việc dùng ảnh gif"></a>Ưu điểm so với việc dùng ảnh gif</h1><ol>
+<li>Tôi ưu hơn performance web vì thay vì load ảnh gif thì thay vào đó là anh png.</li>
+<li>Có thể tương tác với ảnh (vd: có thể cho ảnh dừng lại hoặc tiếp tục chuyển động, hoặc chuyển động vs số lần nhất định rồi ngừng).</li>
+<li>Tùy chỉnh chuyển động nhanh chậm của ảnh.<h1 id="Xay-dung-component-vuejs"><a href="#Xay-dung-component-vuejs" class="headerlink" title="Xây dựng component vuejs"></a>Xây dựng component vuejs</h1><h2 id="Huong-giai-quyet"><a href="#Huong-giai-quyet" class="headerlink" title="Hướng giải quyết"></a>Hướng giải quyết</h2>Đơn giản chỉ là dùng js để thay đổi <code>background-position</code> qua từng phần của bước ảnh và lặp lại khi đến ảnh cuối vậy là mình đã có 1 ảnh tương tự gif.</li>
+</ol>
+<h2 id="Viet-component"><a href="#Viet-component" class="headerlink" title="Viết component"></a>Viết component</h2><p>Khởi tạo các props và style cho component: </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div :style=<span class="string">"style"</span>&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123; clearInterval &#125; <span class="keyword">from</span> <span class="string">'timers'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    image: <span class="built_in">String</span>, <span class="comment">// Url image</span></span><br><span class="line">    height: <span class="built_in">Number</span>, <span class="comment">// chiều cao của component</span></span><br><span class="line">    width: <span class="built_in">Number</span>, <span class="comment">// chiều rộng của component</span></span><br><span class="line">    loop: <span class="built_in">Number</span>, <span class="comment">// số lần lặp của ảnh</span></span><br><span class="line">    frame: <span class="built_in">Number</span>, <span class="comment">// số hình chạy qua trên 1 giây</span></span><br><span class="line">    max: <span class="built_in">Number</span>, <span class="comment">// số hình của ảnh</span></span><br><span class="line">    column: <span class="built_in">Number</span>, <span class="comment">// số cột</span></span><br><span class="line">    row: <span class="built_in">Number</span>, <span class="comment">// số dòng</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  data()&#123;</span><br><span class="line">  <span class="comment">// khởi tạo style ban đầu</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      style: &#123;</span><br><span class="line">        width: <span class="keyword">this</span>.width + <span class="string">'px'</span>,</span><br><span class="line">        height: <span class="keyword">this</span>.height + <span class="string">'px'</span>,</span><br><span class="line">        background: <span class="string">`url(<span class="subst">$&#123;<span class="keyword">this</span>.image&#125;</span>)`</span>,</span><br><span class="line">        backgroundSize: <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.width * <span class="keyword">this</span>.column&#125;</span>px <span class="subst">$&#123;<span class="keyword">this</span>.height * <span class="keyword">this</span>.row&#125;</span>px`</span>,</span><br><span class="line">        backgroundPosition: <span class="string">'0px 0px'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>Tiếp theo chúng ta viết function để ảnh có thể chuyển động.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">   play() &#123;</span><br><span class="line">     <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">     <span class="keyword">let</span> position = &#123;</span><br><span class="line">       x: <span class="number">0</span>,</span><br><span class="line">       y: <span class="number">0</span>,</span><br><span class="line">       loop: <span class="number">0</span>,</span><br><span class="line">     &#125; <span class="comment">// khởi tạo vị trí ban đầu</span></span><br><span class="line">     <span class="keyword">const</span> playTimer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">       i++;</span><br><span class="line">       <span class="keyword">if</span>(i % <span class="keyword">this</span>.column) &#123;</span><br><span class="line">         position.x -= <span class="keyword">this</span>.width; </span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         position.y -= <span class="keyword">this</span>.height; </span><br><span class="line">         position.x = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (i == <span class="keyword">this</span>.max) &#123;</span><br><span class="line">         i = <span class="number">0</span></span><br><span class="line">         position.y = <span class="number">0</span>; </span><br><span class="line">         position.x = <span class="number">0</span>;</span><br><span class="line">         position.loop++;</span><br><span class="line">         <span class="keyword">if</span>(position.loop &gt;= <span class="keyword">this</span>.loop) &#123;</span><br><span class="line">           clearInterval(playTimer)</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">this</span>.$<span class="keyword">set</span>(this.style, 'backgroundPosition', `$&#123;position.x&#125;px $&#123;position.y&#125;px<span class="string">`) // set lại style</span></span><br><span class="line"><span class="string">     &#125;, 1000/this.frame);</span></span><br><span class="line"><span class="string">   &#125;</span></span><br><span class="line"><span class="string"> &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>Gọi hàm play() </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    <span class="keyword">this</span>.play()</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là chúng ta đã viết xong component để ảnh chuyện động. full code :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div :style=<span class="string">"style"</span>&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">'HelloWorld'</span>,</span><br><span class="line">  props: &#123;</span><br><span class="line">    image: <span class="built_in">String</span>,</span><br><span class="line">    height: <span class="built_in">Number</span>,</span><br><span class="line">    width: <span class="built_in">Number</span>,</span><br><span class="line">    loop: <span class="built_in">Number</span>,</span><br><span class="line">    frame: <span class="built_in">Number</span>,</span><br><span class="line">    max: <span class="built_in">Number</span>,</span><br><span class="line">    column: <span class="built_in">Number</span>,</span><br><span class="line">    row: <span class="built_in">Number</span>,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  mounted() &#123;</span><br><span class="line">    <span class="keyword">this</span>.play()</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  data()&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      style: &#123;</span><br><span class="line">        width: <span class="keyword">this</span>.width + <span class="string">'px'</span>,</span><br><span class="line">        height: <span class="keyword">this</span>.height + <span class="string">'px'</span>,</span><br><span class="line">        background: <span class="string">`url(<span class="subst">$&#123;<span class="keyword">this</span>.image&#125;</span>)`</span>,</span><br><span class="line">        backgroundSize: <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.width * <span class="keyword">this</span>.column&#125;</span>px <span class="subst">$&#123;<span class="keyword">this</span>.height * <span class="keyword">this</span>.row&#125;</span>px`</span>,</span><br><span class="line">        backgroundPosition: <span class="string">'0px 0px'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  methods: &#123;</span><br><span class="line">    play() &#123;</span><br><span class="line">      <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">      <span class="keyword">let</span> position = &#123;</span><br><span class="line">        x: <span class="number">0</span>,</span><br><span class="line">        y: <span class="number">0</span>,</span><br><span class="line">        loop: <span class="number">0</span>,</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> playTimer = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        i++;</span><br><span class="line">        <span class="keyword">if</span>(i % <span class="keyword">this</span>.column) &#123;</span><br><span class="line">          position.x -= <span class="keyword">this</span>.width; </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          position.y -= <span class="keyword">this</span>.height; </span><br><span class="line">          position.x = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == <span class="keyword">this</span>.max) &#123;</span><br><span class="line">          i = <span class="number">0</span></span><br><span class="line">          position.y = <span class="number">0</span>; </span><br><span class="line">          position.x = <span class="number">0</span>;</span><br><span class="line">          position.loop++;</span><br><span class="line">          <span class="keyword">if</span>(position.loop &gt;= <span class="keyword">this</span>.loop) &#123;</span><br><span class="line">            clearInterval(playTimer)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">this</span>.$<span class="keyword">set</span>(this.style, 'backgroundPosition', `$&#123;position.x&#125;px $&#123;position.y&#125;px<span class="string">`)</span></span><br><span class="line"><span class="string">      &#125;, 1000/this.frame);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Việc tiếp theo là chúng ta gọi component này ra và sử dụng thôi.</p>
+<p>Mình test thử với ảnh này nhé:<br><img src="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png" alt=""></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &lt;ImageGif</span><br><span class="line">      image = <span class="string">"https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png"</span></span><br><span class="line">      :width=<span class="string">"100"</span></span><br><span class="line">      :height=<span class="string">"100"</span></span><br><span class="line">      :column=<span class="string">"7"</span></span><br><span class="line">      :row=<span class="string">"4"</span></span><br><span class="line">      :max=<span class="string">"27"</span></span><br><span class="line">      :frame=<span class="string">"20"</span></span><br><span class="line">      :loop=<span class="string">"10"</span></span><br><span class="line">    /&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> ImageGif <span class="keyword">from</span> <span class="string">'./components/image-gif.vue'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">'app'</span>,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ImageGif</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Thành quả : </p>
+<p><img src="https://images.viblo.asia/6161d4d6-de76-4b2d-8ecf-b5034b503b11.gif" alt=""></p>
+<p><a href="https://codesandbox.io/s/vue-template-znn3p" target="_blank" rel="noopener">https://codesandbox.io/s/vue-template-znn3p</a></p>
+<h1 id="Ket-luan"><a href="#Ket-luan" class="headerlink" title="Kết luận"></a>Kết luận</h1><p>Các bạn cũng có thể tham khảo thêm github:<br><a href="https://github.com/tuananhp-1844/image-gif" target="_blank" rel="noopener">https://github.com/tuananhp-1844/image-gif</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://www.facebook.com/tittittit1996" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://www.facebook.com/tittittit1996" target="_blank"><span class="text-dark">Phạm Tuấn Anh</span><small class="ml-1x"></small></a></h3>
+        <div></div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/11/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/" title="Chống sao chép hình ảnh bất hợp pháp với watermark image"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/08/07/dong-trinh-duyet-session-mat-hieu-the-nao-cho-dung/" title="&#34;Đóng trình duyệt, session mất&#34; hiểu thế nào cho đúng?"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="facebook,twitter" data-mobile-sites="facebook,twitter"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="donate-payimg">
+            <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+          </div>
+          <p class="text-muted mv">Scan this qrcode</p>
+          <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <!-- <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div> -->
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'rO5OYEHflyhVu4B8epbPADuD-MdYXbMMI',
+    appKey: 'Ryxe8wHgDB4OGyE8TxsdkMLt',
+    placeholder: 'Just go go',
+    avatar: 'mp',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'en'
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-150269506-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Kiểm tra chịu tải của server với K6.io (Phần 1) | Titblog&#39;s</title>
+  <meta name="description" content="Lời mở đầuĐể có được một sản phẩm phần mềm tốt việc test performance là việc hết sức quan trọng để xác định độ ổn định của hệ thống, Để test được hắn một mình bạn không thể gửi request bằng cơm để tes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kiểm tra chịu tải của server với K6.io (Phần 1)">
+<meta property="og:url" content="https://phamtuananh1996.github.io/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/index.html">
+<meta property="og:site_name" content="Phạm Tuấn Anh">
+<meta property="og:description" content="Lời mở đầuĐể có được một sản phẩm phần mềm tốt việc test performance là việc hết sức quan trọng để xác định độ ổn định của hệ thống, Để test được hắn một mình bạn không thể gửi request bằng cơm để tes">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.viblo.asia/ec05af0d-2517-4f52-b340-4dd13ba15477.PNG">
+<meta property="og:image" content="https://images.viblo.asia/aa6933ed-9203-459b-a083-1828c0265809.png">
+<meta property="og:image" content="https://images.viblo.asia/0396af06-d719-499e-934a-2f0eae902789.gif">
+<meta property="og:image" content="https://images.viblo.asia/d5ece6ee-a026-4763-a10d-3ac35d18696f.png">
+<meta property="og:image" content="https://images.viblo.asia/a0c5f3b0-1b11-44e1-b787-a23154363019.png">
+<meta property="article:published_time" content="2021-11-25T09:35:33.000Z">
+<meta property="article:modified_time" content="2024-01-04T00:39:10.962Z">
+<meta property="article:author" content="Phạm Tuấn Anh">
+<meta property="article:tag" content="server">
+<meta property="article:tag" content="performence">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="k6.io">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.viblo.asia/ec05af0d-2517-4f52-b340-4dd13ba15477.PNG">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://phamtuananh1996.github.io/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Phạm Tuấn Anh" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://www.facebook.com/tittittit1996" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Phạm Tuấn Anh</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hà Nội, Việt Nam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>"Pursue excellence, and success will follow you"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Caddy-Server/" rel="tag">Caddy Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/" rel="tag">cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crud/" rel="tag">crud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extension/" rel="tag">extension</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/facebook/" rel="tag">facebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k6-io/" rel="tag">k6.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/" rel="tag">laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nuxtjs/" rel="tag">nuxtjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/package/" rel="tag">package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/performence/" rel="tag">performence</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/" rel="tag">server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/session/" rel="tag">session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket-io/" rel="tag">socket.io</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trick/" rel="tag">trick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unit-test/" rel="tag">unit test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuejs/" rel="tag">vuejs</a><span class="tag-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Caddy-Server/" style="font-size: 13px;">Caddy Server</a> <a href="/tags/cookie/" style="font-size: 13px;">cookie</a> <a href="/tags/crud/" style="font-size: 13px;">crud</a> <a href="/tags/extension/" style="font-size: 13.25px;">extension</a> <a href="/tags/facebook/" style="font-size: 13px;">facebook</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/k6-io/" style="font-size: 13.25px;">k6.io</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/nuxtjs/" style="font-size: 13.25px;">nuxtjs</a> <a href="/tags/package/" style="font-size: 13px;">package</a> <a href="/tags/performence/" style="font-size: 13.25px;">performence</a> <a href="/tags/server/" style="font-size: 13.25px;">server</a> <a href="/tags/session/" style="font-size: 13px;">session</a> <a href="/tags/socket-io/" style="font-size: 13px;">socket.io</a> <a href="/tags/test/" style="font-size: 13.25px;">test</a> <a href="/tags/trick/" style="font-size: 13px;">trick</a> <a href="/tags/unit-test/" style="font-size: 13px;">unit test</a> <a href="/tags/vuejs/" style="font-size: 13.75px;">vuejs</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="title">Recommend(Laravel): Đặt tên sao cho chuẩn :))</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-01-04T00:39:10.962Z" itemprop="datePublished">04-01-2024</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2022/06/30/javascript-quiz/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/30/javascript-quiz/" class="title">Những câu hỏi JavaScript trình độ Advanced</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-30T09:02:40.000Z" itemprop="datePublished">30-06-2022</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 2 InfluxDB + Grafana)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:37:46.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:35:33.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="title">Hướng dẫn người dùng ngay trên chính website của bạn với vue-tour</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:33:43.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kiểm tra chịu tải của server với K6.io (Phần 1)
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="article-date">
+	  <time datetime="2021-11-25T09:35:33.000Z" itemprop="datePublished">25-11-2021</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/k6-io/" rel="tag">k6.io</a>, <a class="article-tag-link" href="/tags/performence/" rel="tag">performence</a>, <a class="article-tag-link" href="/tags/server/" rel="tag">server</a>, <a class="article-tag-link" href="/tags/test/" rel="tag">test</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 15(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Loi-mo-dau"><a href="#Loi-mo-dau" class="headerlink" title="Lời mở đầu"></a>Lời mở đầu</h1><p>Để có được một sản phẩm phần mềm tốt việc test performance là việc hết sức quan trọng để xác định độ ổn định của hệ thống, Để test được hắn một mình bạn không thể gửi request bằng cơm để test chịu tải của server được, vì vậy các công cụ hỗ trợ test chịu tải của server ra đời để giúp cho chúng ta đỡ vất vả hơn phần nào. Cũng có rẩt nhiều công cụ hỗ trợ cho việc test này như Artillery, Jmeter ….</p>
+<p>Trong bài viết này chúng ta hãy cùng đi tìm hiểu về 1 công cụ mình mới được khai sáng, đó chính là K6.io</p>
+<p><img src="https://images.viblo.asia/ec05af0d-2517-4f52-b340-4dd13ba15477.PNG" alt=""></p>
+<h1 id="Cai-dat"><a href="#Cai-dat" class="headerlink" title="Cài đặt"></a>Cài đặt</h1><p>K6.io phát hành các gói cài đặt và sử dụng trên rất nhiều hệ điều hành, hệ thống như linux, mac, window, docker….</p>
+<h2 id="Linux-Debian-Ubuntu"><a href="#Linux-Debian-Ubuntu" class="headerlink" title="Linux (Debian/Ubuntu)"></a>Linux (Debian/Ubuntu)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-key adv --keyserver hkp:&#x2F;&#x2F;keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69</span><br><span class="line">$ echo &quot;deb https:&#x2F;&#x2F;dl.k6.io&#x2F;deb stable main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;k6.list</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install k6</span><br></pre></td></tr></table></figure>
+<h2 id="Mac-brew"><a href="#Mac-brew" class="headerlink" title="Mac (brew)"></a>Mac (brew)</h2><p>Sử dụng <a href="https://brew.sh/" target="_blank" rel="noopener">brew</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install k6</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows-MSI-installer"><a href="#Windows-MSI-installer" class="headerlink" title="Windows (MSI installer)"></a>Windows (MSI installer)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ Download the k6 installer: https:&#x2F;&#x2F;dl.bintray.com&#x2F;loadimpact&#x2F;windows&#x2F;k6-latest-amd64.msi</span><br></pre></td></tr></table></figure>
+
+<p>Nếu bạn dùng <a href="https://chocolatey.org/" target="_blank" rel="noopener">Chocolatey package manager </a>. Bạn có thể cài đặt k6 bằng cách sau:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ choco install k6</span><br></pre></td></tr></table></figure>
+
+<h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull loadimpact&#x2F;k6</span><br></pre></td></tr></table></figure>
+
+<p>Ở bài viết này mình sẽ dùng docker để cài đặt.</p>
+<h2 id="Kiem-tra-version"><a href="#Kiem-tra-version" class="headerlink" title="Kiểm tra version"></a>Kiểm tra version</h2><p>Để xem cài đặt thành công k6 hay chưa dùng lệnh: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ k6 version</span><br><span class="line"># k6 v0.31.1 (2021-03-17T13:23:23+0000&#x2F;e9d8349, go1.15.8, linux&#x2F;amd64)</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là cài đặt thành công  !!!!</p>
+<h1 id="Kiem-tra-do-chiu-tai-voi-k6"><a href="#Kiem-tra-do-chiu-tai-voi-k6" class="headerlink" title="Kiểm tra độ chịu tải với k6"></a>Kiểm tra độ chịu tải với k6</h1><h2 id="Running-k6"><a href="#Running-k6" class="headerlink" title="Running k6"></a>Running k6</h2><p>Vì k6 sử dụng file javascript để chạy test nên khá dễ dàng tiếp cận. Chúng ta tạo một file với tên homepage.js đơn giản với nội dung sau:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'k6/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; sleep &#125; <span class="keyword">from</span> <span class="string">'k6'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> options = &#123;</span><br><span class="line">  VUs: <span class="number">10</span>,</span><br><span class="line">  duration: <span class="string">'30s'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   http.get(<span class="string">'https://phamtuananh1996.github.io'</span>);</span><br><span class="line">   sleep(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Ở đây mình khai báo VUs = 10 và duration = 30 giây có nghĩa là quá trình test sẽ mô tả 10 user vào website <a href="https://phamtuananh1996.github.io">https://phamtuananh1996.github.io</a> trong vòng 30 giây (VUs viết tắt của  virtual user)</p>
+<p>Tiến hành chạy test:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ k6 run homepage.js</span><br></pre></td></tr></table></figure>
+<p>Hoặc chạy với docker:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -i loadimpact&#x2F;k6 run - &lt;homepage.js</span><br></pre></td></tr></table></figure>
+
+<p>sau khi chạy xong k6 sẽ tổng hợp số liệu như sau:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">data_received..............: 148 MB 2.5 MB&#x2F;s</span><br><span class="line">data_sent..................: 1.0 MB 17 kB&#x2F;s</span><br><span class="line">http_req_blocked...........: avg&#x3D;1.92ms   min&#x3D;1µs      med&#x3D;5µs      max&#x3D;288.73ms p(90)&#x3D;11µs     p(95)&#x3D;17µs</span><br><span class="line">http_req_connecting........: avg&#x3D;1.01ms   min&#x3D;0s       med&#x3D;0s       max&#x3D;166.44ms p(90)&#x3D;0s       p(95)&#x3D;0s</span><br><span class="line">http_req_duration..........: avg&#x3D;143.14ms min&#x3D;112.87ms med&#x3D;136.03ms max&#x3D;1.18s    p(90)&#x3D;164.2ms  p(95)&#x3D;177.75ms</span><br><span class="line">http_req_receiving.........: avg&#x3D;5.53ms   min&#x3D;49µs     med&#x3D;2.11ms   max&#x3D;1.01s    p(90)&#x3D;9.25ms   p(95)&#x3D;11.8ms</span><br><span class="line">http_req_sending...........: avg&#x3D;30.01µs  min&#x3D;7µs      med&#x3D;24µs     max&#x3D;1.89ms   p(90)&#x3D;48µs     p(95)&#x3D;63µs</span><br><span class="line">http_req_tls_handshaking...: avg&#x3D;0s       min&#x3D;0s       med&#x3D;0s       max&#x3D;0s       p(90)&#x3D;0s       p(95)&#x3D;0s</span><br><span class="line">http_req_waiting...........: avg&#x3D;137.57ms min&#x3D;111.44ms med&#x3D;132.59ms max&#x3D;589.4ms  p(90)&#x3D;159.95ms p(95)&#x3D;169.41ms</span><br><span class="line">http_reqs..................: 13491  224.848869&#x2F;s</span><br><span class="line">iteration_duration.........: avg&#x3D;445.48ms min&#x3D;413.05ms med&#x3D;436.36ms max&#x3D;1.48s    p(90)&#x3D;464.94ms p(95)&#x3D;479.66ms</span><br><span class="line">iterations.................: 13410  223.498876&#x2F;s</span><br><span class="line">vus........................: 100    min&#x3D;100 max&#x3D;100</span><br><span class="line">vus_max....................: 100    min&#x3D;100 max&#x3D;100</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là đã chạy ok rồi. Các thông số mình sẽ giải thích ở phần dưới nhé.</p>
+<p>Đây chỉ là 1 case đơn giản. Trên thực tế thì phức tạp hơn trong thực tế thì user thường tương tác với Server theo một kịch bản chứ không chỉ đơn thuần là gửi request, hay số lượng user sẽ tăng lên hay giảm đi.</p>
+<h2 id="Stages-ramping-up-down-VUs"><a href="#Stages-ramping-up-down-VUs" class="headerlink" title="Stages: ramping up/down VUs"></a>Stages: ramping up/down VUs</h2><p>Bạn cũng có thể tăng và giảm số lượng VUs trong quá trình kiểm tra. Chúng ta có thể config ở <code>options.stages</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'k6/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; sleep &#125; <span class="keyword">from</span> <span class="string">'k6'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> options = &#123;</span><br><span class="line">  stages: [</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2m'</span>, <span class="attr">target</span>: <span class="number">100</span> &#125;, <span class="comment">// below normal load</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5m'</span>, <span class="attr">target</span>: <span class="number">100</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2m'</span>, <span class="attr">target</span>: <span class="number">200</span> &#125;, <span class="comment">// normal load</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5m'</span>, <span class="attr">target</span>: <span class="number">200</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2m'</span>, <span class="attr">target</span>: <span class="number">300</span> &#125;, <span class="comment">// around the breaking point</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5m'</span>, <span class="attr">target</span>: <span class="number">300</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2m'</span>, <span class="attr">target</span>: <span class="number">400</span> &#125;, <span class="comment">// beyond the breaking point</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5m'</span>, <span class="attr">target</span>: <span class="number">400</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'10m'</span>, <span class="attr">target</span>: <span class="number">0</span> &#125;, <span class="comment">// scale down. Recovery stage.</span></span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   http.get(<span class="string">'https://phamtuananh1996.github.io'</span>);</span><br><span class="line">   sleep(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Ở đây thì mình có tăng số lượng user (target) lên dần dần và thời gian (duration) cũng tăng dần dần và đột ngột giảm user về 0 nhắm kiểm tra độ chịu tải của server (Stress Test)</p>
+<h1 id="Results-visualization-voi-Cloud-k6"><a href="#Results-visualization-voi-Cloud-k6" class="headerlink" title="Results visualization với Cloud k6"></a>Results visualization với Cloud k6</h1><p>k6.io cũng cung cấp cho chúng ta cloud để thực hiện việc test và kiểm tra kết quả bằng hình ảnh trực quan, hoặc bạn cũng có thể chạy test dưới local sau đó stream result lên k6 Cloud. </p>
+<p>k6.io cho người dùng dùng thử chỉ bằng cách đăng ký tài khoản bằng gmail hoặc github. Với mỗi tài khoản, người dùng có thể thực hiện miễn phí 50 lượt test. Ngoài ra còn giới hạn những thông số cấu hình cho các loại test. Ở đây mình sử dụng gmail để đăng nhập.</p>
+<p>Đây là giao diện dashboard khi đăng nhập xong.  Ở giao diện này, sẽ có 2 lựa chọn để tạo test là <strong>Test builder</strong> và <strong>Script editor</strong>.</p>
+<p><img src="https://images.viblo.asia/aa6933ed-9203-459b-a083-1828c0265809.png" alt=""></p>
+<p><strong>Test builder</strong> cho phép chúng ta tạo test bằng giao diện trực quan, còn <strong>Script editor</strong> cho phép chúng ta tạo các đoạn script bằng js và chạy trên nền cloud.</p>
+<h2 id="Script-editor"><a href="#Script-editor" class="headerlink" title="Script editor"></a>Script editor</h2><p>K6 Cloud cũng cấp luôn cho chúng ta 1 trình soạn thảo và đoạn code mẫu việc của chúng ta là copy đoạn code bên trên và paste vào thôi. sau khi xong ấn vào run . vì Hiện tại mình đang là free user, nên tối đa có thể chạy với 50 VUs và 12 phút vì thế mình điều chỉnh đoạn code test của mình xuống như sau:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'k6/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; sleep &#125; <span class="keyword">from</span> <span class="string">'k6'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> options = &#123;</span><br><span class="line">  stages: [</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2s'</span>, <span class="attr">target</span>: <span class="number">10</span> &#125;, <span class="comment">// below normal load</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5s'</span>, <span class="attr">target</span>: <span class="number">10</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2s'</span>, <span class="attr">target</span>: <span class="number">20</span> &#125;, <span class="comment">// normal load</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5s'</span>, <span class="attr">target</span>: <span class="number">20</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2s'</span>, <span class="attr">target</span>: <span class="number">30</span> &#125;, <span class="comment">// around the breaking point</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5s'</span>, <span class="attr">target</span>: <span class="number">30</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'2s'</span>, <span class="attr">target</span>: <span class="number">40</span> &#125;, <span class="comment">// beyond the breaking point</span></span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'5s'</span>, <span class="attr">target</span>: <span class="number">40</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">duration</span>: <span class="string">'10s'</span>, <span class="attr">target</span>: <span class="number">0</span> &#125;, <span class="comment">// scale down. Recovery stage.</span></span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  http.get(<span class="string">'https://phamtuananh1996.github.io'</span>);</span><br><span class="line">  sleep(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images.viblo.asia/0396af06-d719-499e-934a-2f0eae902789.gif" alt=""></p>
+<p>Đợi sau khi chạy xong ta sẽ có giao diện sau, cũng là giao diện cuối khi hoàn thành test:<br><img src="https://images.viblo.asia/d5ece6ee-a026-4763-a10d-3ac35d18696f.png" alt=""></p>
+<p>Ở giao diện này, ta có thể thấy được rất nhiều các thông số như các biểu đồ về VUs, request, hiển thị lỗi, metrics… Như ở đây mình thấy với 40 user hoạt động cùng lúc trong vòng 5s thì website vẫn không vấn đề gì và hoạt động bình thường .</p>
+<h2 id="Cloud-tests-from-the-CLI"><a href="#Cloud-tests-from-the-CLI" class="headerlink" title="Cloud tests from the CLI"></a>Cloud tests from the CLI</h2><p>Chúng ta cũng có thể chạy test trên local thông qua CLI và upload kết quả đó lên cloud để có thể theo dõi trực quan hơn băng biểu đồ, hình ảnh do cloud cung cấp.</p>
+<p>Đầu tiên phải đăng nhâp k6 cloud từ cli:</p>
+<p>Đăng nhập bằng username và password:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ k6 login cloud</span><br></pre></td></tr></table></figure>
+<p>Đăng nhập bằng API Token:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ k6 login cloud --token &lt;YOUR_K6_CLOUD_API_TOKEN&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Để lấy được API Token sau khi đăng nhập chúng ta có thể vào <a href="https://app.k6.io/account/api-token" target="_blank" rel="noopener">https://app.k6.io/account/api-token</a> để lấy.</p>
+<p>Chạy kịch bản test trên local và stream lên cloud k6:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ k6 cloud script.js</span><br></pre></td></tr></table></figure>
+
+<p>Sau khi chạy xong sẽ có 1 số thông tin và 1 đường dẫn url đến trang xem kết quả test trên cloud (output):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">        &#x2F;\      |‾‾|  &#x2F;‾‾&#x2F;  &#x2F;‾&#x2F;</span><br><span class="line">   &#x2F;\  &#x2F;  \     |  |_&#x2F;  &#x2F;  &#x2F; &#x2F;</span><br><span class="line">  &#x2F;  \&#x2F;    \    |      |  &#x2F;  ‾‾\</span><br><span class="line"> &#x2F;          \   |  |‾\  \ | (_) |</span><br><span class="line">&#x2F; __________ \  |__|  \__\ \___&#x2F; .io</span><br><span class="line"></span><br><span class="line">execution: cloud</span><br><span class="line">script: script.js</span><br><span class="line">output: https:&#x2F;&#x2F;app.k6.io&#x2F;runs&#x2F;TEST_RUN_ID</span><br></pre></td></tr></table></figure>
+
+<p>Bạn có thể điều hướng đến url đó để xem kết quả test một cách trực quan:<br><img src="https://images.viblo.asia/a0c5f3b0-1b11-44e1-b787-a23154363019.png" alt=""></p>
+<h1 id="Results-output"><a href="#Results-output" class="headerlink" title="Results output"></a>Results output</h1><p>Sau khi chay test local xong bạn sẽ thấy các thông số này:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">data_received..............: 148 MB 2.5 MB&#x2F;s</span><br><span class="line">data_sent..................: 1.0 MB 17 kB&#x2F;s</span><br><span class="line">http_req_blocked...........: avg&#x3D;1.92ms   min&#x3D;1µs      med&#x3D;5µs      max&#x3D;288.73ms p(90)&#x3D;11µs     p(95)&#x3D;17µs</span><br><span class="line">http_req_connecting........: avg&#x3D;1.01ms   min&#x3D;0s       med&#x3D;0s       max&#x3D;166.44ms p(90)&#x3D;0s       p(95)&#x3D;0s</span><br><span class="line">http_req_duration..........: avg&#x3D;143.14ms min&#x3D;112.87ms med&#x3D;136.03ms max&#x3D;1.18s    p(90)&#x3D;164.2ms  p(95)&#x3D;177.75ms</span><br><span class="line">http_req_receiving.........: avg&#x3D;5.53ms   min&#x3D;49µs     med&#x3D;2.11ms   max&#x3D;1.01s    p(90)&#x3D;9.25ms   p(95)&#x3D;11.8ms</span><br><span class="line">http_req_sending...........: avg&#x3D;30.01µs  min&#x3D;7µs      med&#x3D;24µs     max&#x3D;1.89ms   p(90)&#x3D;48µs     p(95)&#x3D;63µs</span><br><span class="line">http_req_tls_handshaking...: avg&#x3D;0s       min&#x3D;0s       med&#x3D;0s       max&#x3D;0s       p(90)&#x3D;0s       p(95)&#x3D;0s</span><br><span class="line">http_req_waiting...........: avg&#x3D;137.57ms min&#x3D;111.44ms med&#x3D;132.59ms max&#x3D;589.4ms  p(90)&#x3D;159.95ms p(95)&#x3D;169.41ms</span><br><span class="line">http_reqs..................: 13491  224.848869&#x2F;s</span><br><span class="line">iteration_duration.........: avg&#x3D;445.48ms min&#x3D;413.05ms med&#x3D;436.36ms max&#x3D;1.48s    p(90)&#x3D;464.94ms p(95)&#x3D;479.66ms</span><br><span class="line">iterations.................: 13410  223.498876&#x2F;s</span><br><span class="line">vus........................: 100    min&#x3D;100 max&#x3D;100</span><br><span class="line">vus_max....................: 100    min&#x3D;100 max&#x3D;100</span><br></pre></td></tr></table></figure>
+<p> Mỗi thông số http_req đều có các thông số (avg, min. max, med, p(90), p(95))</p>
+<p>http_req_blocked: Thời gian VU dành để chờ được phân bổ kết nối TCP từ nhóm kết nối.</p>
+<p>http_req_connecting: Thời gian VU dành để thiết lập kết nối TCP đến máy chủ từ xa</p>
+<p>http_req_duration: Thời gian thực hiện tra cứu DNS.</p>
+<p>http_req_receiving: Thời gian nhận được trả lời từ máy chủ từ xa.</p>
+<p>http_req_sending: Thời gian dành để truyền các yêu cầu HTTP đến máy chủ từ xa.</p>
+<p>http_req_tls_handshaking: thời gian máy khách và máy chủ, xác nhận lẫn nhau và bắt đầu giao tiếp</p>
+<p>http_req_waiting: Thời gian chờ đợi phản hồi trở lại từ máy chủ từ xa (sau khi đã gửi yêu cầu).</p>
+<p>http_reqs: Tổng số yêu cầu HTTP được thực hiện trong toàn bộ thử nghiệm</p>
+<p>iteration_duration: Tổng thời gian cho yêu cầu. (http_req_sending + http_req_waiting + http_req_receiving)</p>
+<p>iterations: Tổng số lần tất cả các VU trong thử nghiệm được quản lý để chạy qua hàm default ().</p>
+<p>vus: Có bao nhiêu VU thử nghiệm được cấu hình để mô phỏng.</p>
+<p>vus_max: Số lượng vị trí VU được phân bổ trước mà thử nghiệm được định cấu hình (vus_max cho phép bạn mở rộng số lượng VU trong thử nghiệm để tối đa số lượng đó).</p>
+<h1 id="Ket-luan"><a href="#Ket-luan" class="headerlink" title="Kết luận"></a>Kết luận</h1><p>Trên đây mình có giới thiệu sơ lược về kiểm trả perfomance bằng k6.io và sử dụng cloud k6 để test và visualization kết quả. Nhưng vì dùng bản miễn phí nên bị giới hạn khá nhiều. </p>
+<p>Bài sau mình sẽ viết về việc dùng InfluxDB + Grafana để hiển thị kết qủa test miễn phí.</p>
+<p>blog: <a href="https://phamtuananh1996.github.io/">https://phamtuananh1996.github.io/</a></p>
+<p>Tham khảo: <a href="https://k6.io/docs/" target="_blank" rel="noopener">https://k6.io/docs/</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://www.facebook.com/tittittit1996" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://www.facebook.com/tittittit1996" target="_blank"><span class="text-dark">Phạm Tuấn Anh</span><small class="ml-1x"></small></a></h3>
+        <div></div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" title="Kiểm tra chịu tải của server với K6.io (Phần 2 InfluxDB + Grafana)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" title="Hướng dẫn người dùng ngay trên chính website của bạn với vue-tour"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="facebook,twitter" data-mobile-sites="facebook,twitter"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="donate-payimg">
+            <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+          </div>
+          <p class="text-muted mv">Scan this qrcode</p>
+          <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <!-- <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div> -->
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'rO5OYEHflyhVu4B8epbPADuD-MdYXbMMI',
+    appKey: 'Ryxe8wHgDB4OGyE8TxsdkMLt',
+    placeholder: 'Just go go',
+    avatar: 'mp',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'en'
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-150269506-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

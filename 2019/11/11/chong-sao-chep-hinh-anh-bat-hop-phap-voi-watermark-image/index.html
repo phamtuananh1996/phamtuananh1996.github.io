@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Chống sao chép hình ảnh bất hợp pháp với watermark image | Titblog&#39;s</title>
+  <meta name="description" content="watermark image là gì?Gần đây mình thấy trên viblo có mội số bài viết khá hay và chất lượng. Nhưng điều đáng buồn là các trang web về công nghệ khác đã copy các bài viết này mà không xin phép tác giả">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chống sao chép hình ảnh bất hợp pháp với watermark image">
+<meta property="og:url" content="https://phamtuananh1996.github.io/2019/11/11/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/index.html">
+<meta property="og:site_name" content="Phạm Tuấn Anh">
+<meta property="og:description" content="watermark image là gì?Gần đây mình thấy trên viblo có mội số bài viết khá hay và chất lượng. Nhưng điều đáng buồn là các trang web về công nghệ khác đã copy các bài viết này mà không xin phép tác giả">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.viblo.asia/a8d172b1-d2b7-449e-93bd-b65afe49527d.jpg">
+<meta property="og:image" content="https://images.viblo.asia/f8d2f803-3713-4a01-a8d0-a2c1f27de809.jpg">
+<meta property="og:image" content="https://images.viblo.asia/349cd9d4-abe7-49c3-bd33-1fa9ed3f5e0e.jpg">
+<meta property="og:image" content="https://images.viblo.asia/avatar/3a85fdbd-c6e9-49ad-80b9-7b637af70860.JPG">
+<meta property="og:image" content="https://images.viblo.asia/a8d172b1-d2b7-449e-93bd-b65afe49527d.jpg">
+<meta property="article:published_time" content="2019-11-11T07:31:21.000Z">
+<meta property="article:modified_time" content="2024-01-04T00:39:10.946Z">
+<meta property="article:author" content="Phạm Tuấn Anh">
+<meta property="article:tag" content="laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.viblo.asia/a8d172b1-d2b7-449e-93bd-b65afe49527d.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://phamtuananh1996.github.io/2019/11/11/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Phạm Tuấn Anh" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://www.facebook.com/tittittit1996" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Phạm Tuấn Anh</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hà Nội, Việt Nam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>"Pursue excellence, and success will follow you"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Caddy-Server/" rel="tag">Caddy Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/" rel="tag">cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crud/" rel="tag">crud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extension/" rel="tag">extension</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/facebook/" rel="tag">facebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k6-io/" rel="tag">k6.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/" rel="tag">laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nuxtjs/" rel="tag">nuxtjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/package/" rel="tag">package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/performence/" rel="tag">performence</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/" rel="tag">server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/session/" rel="tag">session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket-io/" rel="tag">socket.io</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trick/" rel="tag">trick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unit-test/" rel="tag">unit test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuejs/" rel="tag">vuejs</a><span class="tag-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Caddy-Server/" style="font-size: 13px;">Caddy Server</a> <a href="/tags/cookie/" style="font-size: 13px;">cookie</a> <a href="/tags/crud/" style="font-size: 13px;">crud</a> <a href="/tags/extension/" style="font-size: 13.25px;">extension</a> <a href="/tags/facebook/" style="font-size: 13px;">facebook</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/k6-io/" style="font-size: 13.25px;">k6.io</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/nuxtjs/" style="font-size: 13.25px;">nuxtjs</a> <a href="/tags/package/" style="font-size: 13px;">package</a> <a href="/tags/performence/" style="font-size: 13.25px;">performence</a> <a href="/tags/server/" style="font-size: 13.25px;">server</a> <a href="/tags/session/" style="font-size: 13px;">session</a> <a href="/tags/socket-io/" style="font-size: 13px;">socket.io</a> <a href="/tags/test/" style="font-size: 13.25px;">test</a> <a href="/tags/trick/" style="font-size: 13px;">trick</a> <a href="/tags/unit-test/" style="font-size: 13px;">unit test</a> <a href="/tags/vuejs/" style="font-size: 13.75px;">vuejs</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="title">Recommend(Laravel): Đặt tên sao cho chuẩn :))</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-01-04T00:39:10.962Z" itemprop="datePublished">04-01-2024</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2022/06/30/javascript-quiz/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/30/javascript-quiz/" class="title">Những câu hỏi JavaScript trình độ Advanced</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-30T09:02:40.000Z" itemprop="datePublished">30-06-2022</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 2 InfluxDB + Grafana)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:37:46.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:35:33.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="title">Hướng dẫn người dùng ngay trên chính website của bạn với vue-tour</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:33:43.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="posts-chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image" class="article article-type-posts" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Chống sao chép hình ảnh bất hợp pháp với watermark image
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/11/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/" class="article-date">
+	  <time datetime="2019-11-11T07:31:21.000Z" itemprop="datePublished">11-11-2019</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/laravel/" rel="tag">laravel</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/11/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 8(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="watermark-image-la-gi"><a href="#watermark-image-la-gi" class="headerlink" title="watermark image là gì?"></a>watermark image là gì?</h1><p>Gần đây mình thấy trên viblo có mội số bài viết khá hay và chất lượng. Nhưng điều đáng buồn là các trang web về công nghệ khác đã copy các bài viết này mà không xin phép tác giả hay có thì cũng chỉ là ghi link tới bài viết rất nhỏ ở cuối bài.<br>Cũng chính vì lý do đó mà các tác giả của viblo gần đây đã gắn thêm watermark vào hình ảnh của mình. </p>
+<p>Như chính bài này sau 1 thời gian thì cũng đã bị copy <a href="https://topdev.vn/blog/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/" target="_blank" rel="noopener">https://topdev.vn/blog/chong-sao-chep-hinh-anh-bat-hop-phap-voi-watermark-image/</a> tại trang này. :joy::joy::joy::joy::joy: </p>
+<p>dưới đây là 1 ví dụ về watermark:<br><img src="https://images.viblo.asia/a8d172b1-d2b7-449e-93bd-b65afe49527d.jpg" alt=""></p>
+<p>bạn có thể thấy ở góc bottom-right có ảnh cái mẹt của mình. và như để khẳng định nguồn hình ảnh bài viết này là của mình. :rofl::rofl::rofl::rofl::rofl::rofl::rofl::rofl::rofl::rofl::rofl:</p>
+<p>vậy watermark là gì ?</p>
+<h2 id="Khai-niem-Watermark-la-gi"><a href="#Khai-niem-Watermark-la-gi" class="headerlink" title="Khái niệm Watermark là gì?"></a>Khái niệm Watermark là gì?</h2><p>  Watermark được hiểu là một dấu hiệu nhận biết như text, Image, logo hay slogan của riêng bạn hoặc công ty bạn được in hoặc làm chìm, làm mờ phía đăng sau bức ảnh. Mục đích của việc làm này chính là đánh dấu hoặc đặt ra dấu hiệu nhận biết đó là sản phẩm của bạn làm ra. Khi người khác lấy ảnh hoặc tài liệu của bạn để sử dụng cho website của họ. Mặc định người ta biết rằng đó là ảnh của bạn làm ra.<br>  <img src="https://images.viblo.asia/f8d2f803-3713-4a01-a8d0-a2c1f27de809.jpg" alt=""></p>
+<h2 id="Y-nghia-cua-viec-su-dung-Watermark-la-gi"><a href="#Y-nghia-cua-viec-su-dung-Watermark-la-gi" class="headerlink" title="Ý nghĩa của việc sử dụng Watermark là gì?"></a>Ý nghĩa của việc sử dụng Watermark là gì?</h2><ul>
+<li><p><strong>Chống sao chép bất hợp pháp hoặc chưa có sự đồng ý của chủ nhân tác phẩm.</strong></p>
+<p>Đặc biệt trong bán hàng online trên mạng, hay thậm chí  việc sử dụng lại hình ảnh của nhau là điều thường xảy ra. Khi đối thủ cạnh tranh của bạn sử dụng lại hình ảnh của bạn một cách trái phép để làm công cụ riêng của họ thì việc gắn Watermark cho tác phẩm của mình là điều cần thiết. Bạn có thể sử dụng logo chìm, hotline hoặc tên của bạn làm mờ phía sau ảnh. Điều này đảm bảo cho bạn dễ dàng bảo vệ được tác phẩm của mình.</p>
+</li>
+<li><p><strong>Hỗ trợ quảng bá và tăng độ phủ của thương hiệu</strong></p>
+<p>Việc sử dụng Watermark là một trong nhiều yếu tố được các thương hiệu nổi tiếng sử dụng để quảng bá thương hiệu của bạn dễ dàng. Ngoài việc bảo vệ bản quyền tác phẩm, bạn còn có thể sử dụng Watermark làm một trong các công cụ để giới thiệu công ty. Nếu ảnh của bạn chất lượng, sẽ có rất nhiều người lấy ảnh của bạn để chia sẻ và đăng tải.</p>
+<p> Điều này không hề có hại mà ngược lại sẽ giúp doanh nghiệp của bạn được quảng bá dễ dàng hơn rất nhiều. Đây chính là điểm mạnh của Watermark giúp bạn phát triển được tiềm năng thương hiệu.</p>
+</li>
+<li><p><strong>Tạo ra điểm nhấn của tác phẩm</strong></p>
+<p>Sự chăm chút trong tác phẩm của bạn từ chi tiết tới Watermark cũng có thể giúp bạn gây ấn tượng với người xem. Ngoài việc đóng dấu bản quyền, chúng còn đem lại một điểm nhấn sáng tạo cho bức hình của chính bạn hoặc của công ty.</p>
+</li>
+</ul>
+<h1 id="Demo-watermark-image-voi-intervention"><a href="#Demo-watermark-image-voi-intervention" class="headerlink" title="Demo watermark image với intervention"></a>Demo watermark image với intervention</h1><p>   Lý thuyết vậy đủ rồi giờ thực hành thôi</p>
+<h2 id="Cai-dat-thu-vien"><a href="#Cai-dat-thu-vien" class="headerlink" title="Cài đặt thư viện"></a>Cài đặt thư viện</h2><blockquote>
+<p>Yêu cầu môi trường:</p>
+<ul>
+<li><p>PHP &gt;= 5.4</p>
+</li>
+<li><p>Fileinfo Extension</p>
+</li>
+<li><p>GD Library (&gt;=2.0)</p>
+</li>
+<li><p>Imagick PHP extension (&gt;=6.5.7)</p>
+</li>
+</ul>
+</blockquote>
+<p>Đầu tiên chạy lệnh này để tiến hành clone thư viện về project:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require intervention&#x2F;image</span><br></pre></td></tr></table></figure>
+
+<p>Trong file <em>config/app.php</em> thêm <code>providers</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Intervention\Image\ImageServiceProvider::class</span><br></pre></td></tr></table></figure>
+<p>và thêm <code>aliases</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;Image&#39; &#x3D;&gt; Intervention\Image\Facades\Image::class</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là xong phần cài đặt tiếp theo bắt tay vào code chức năng watermark image.</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>Nếu bạn truy cập vào document của thư viện <a href="http://image.intervention.io/getting_started/introduction" target="_blank" rel="noopener">tại đây</a> thì đã có hẳn một ví dụ về việc watermark này:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// open an image file</span></span><br><span class="line">$img = Image::make(<span class="string">'public/foo.jpg'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// now you are able to resize the instance</span></span><br><span class="line">$img-&gt;resize(<span class="number">320</span>, <span class="number">240</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// and insert a watermark for example</span></span><br><span class="line">$img-&gt;insert(<span class="string">'public/watermark.png'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// finally we save the image as a new file</span></span><br><span class="line">$img-&gt;save(<span class="string">'public/bar.jpg'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Dựa vào ví dụ của doc thì mình cần 2 ảnh 1 là ảnh cần watermark và 1 ảnh watermark.</p>
+<p>Mình sẽ dùng 2 ảnh này cho nó cute!</p>
+<ol>
+<li><p>Ảnh gốc (ảnh mình muốn gắn watermark) có tên <code>foo.jpg</code><br><img src="https://images.viblo.asia/349cd9d4-abe7-49c3-bd33-1fa9ed3f5e0e.jpg" alt=""></p>
+</li>
+<li><p>Ảnh watermark ( dùng luôn cái mặt mình ) có tên <code>watermark.png</code></p>
+<p> <img src="https://images.viblo.asia/avatar/3a85fdbd-c6e9-49ad-80b9-7b637af70860.JPG" alt=""></p>
+</li>
+</ol>
+<p>2 ảnh này mình để trong fodel public của project</p>
+<p>Tiến hành code thôi. mình sửa lại đoạn code ví dụ của doc 1 chút : </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mở ảnh gốc</span></span><br><span class="line">$img = Image::make(<span class="string">'public/foo.jpg'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Mở ảnh watermark</span></span><br><span class="line">$watermark = Image::make(<span class="string">'public/watermark.jpg'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//làm mờ ảnh watermark</span></span><br><span class="line">$watermark = $watermark-&gt;opacity(<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// resize ảnh watermark (= 1/10 ảnh gốc)</span></span><br><span class="line">$resizePercentage = <span class="number">10</span>/<span class="number">100</span>;</span><br><span class="line">$watermarkSize = round($image-&gt;width() * $resizePercentage, <span class="number">2</span>);</span><br><span class="line">$watermark-&gt;resize($watermarkSize, <span class="keyword">null</span>, <span class="function"><span class="keyword">function</span> <span class="params">($constraint)</span> </span>&#123;</span><br><span class="line">    $constraint-&gt;aspectRatio();</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//set position : vị trí của ảnh watermark ở đây mình để  góc dười bên phải</span></span><br><span class="line">$position = <span class="string">'bottom-right'</span>; </span><br><span class="line"><span class="comment">// có thể chọn các vị trí:</span></span><br><span class="line"><span class="comment">// top-left (default)</span></span><br><span class="line"><span class="comment">// top</span></span><br><span class="line"><span class="comment">// top-right</span></span><br><span class="line"><span class="comment">// left</span></span><br><span class="line"><span class="comment">// center</span></span><br><span class="line"><span class="comment">// right</span></span><br><span class="line"><span class="comment">// bottom-left</span></span><br><span class="line"><span class="comment">// bottom</span></span><br><span class="line"><span class="comment">// bottom-right</span></span><br><span class="line"><span class="comment">// Tiến hành watermark </span></span><br><span class="line">$img-&gt;insert($watermark, $position);</span><br><span class="line"></span><br><span class="line"><span class="comment">// finally we save the image as a new file</span></span><br><span class="line">$img-&gt;save(<span class="string">'public/bar.jpg'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>vậy là done! </p>
+<p><img src="https://images.viblo.asia/a8d172b1-d2b7-449e-93bd-b65afe49527d.jpg" alt=""></p>
+<h1 id="Ket-luan"><a href="#Ket-luan" class="headerlink" title="Kết luận"></a>Kết luận</h1><p>Qua bài viết này mình mong các bạn có thêm 1 sự lựa chọn cho website của mình về việc bản quyền.  Chúc các bạn thành công :heart_eyes::heart_eyes::heart_eyes::heart_eyes::heart_eyes:</p>
+<p>Tài liệu tham khảo:<br>    <a href="https://haviweb.com.vn/watermark-la-gi/" target="_blank" rel="noopener">https://haviweb.com.vn/watermark-la-gi/</a></p>
+<p>   <a href="http://image.intervention.io" target="_blank" rel="noopener">http://image.intervention.io</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://www.facebook.com/tittittit1996" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://www.facebook.com/tittittit1996" target="_blank"><span class="text-dark">Phạm Tuấn Anh</span><small class="ml-1x"></small></a></h3>
+        <div></div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/15/tao-mechanism-webhook-cho-rieng-minh-voi-laravel-notification/" title="Tạo mechanism webhook cho riêng mình với laravel notification."><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/09/15/bien-anh-sprites-thanh-anh-dong-voi-vuejs/" title="Biến ảnh sprites thành ảnh động với vuejs"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="facebook,twitter" data-mobile-sites="facebook,twitter"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="donate-payimg">
+            <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+          </div>
+          <p class="text-muted mv">Scan this qrcode</p>
+          <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <!-- <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div> -->
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'rO5OYEHflyhVu4B8epbPADuD-MdYXbMMI',
+    appKey: 'Ryxe8wHgDB4OGyE8TxsdkMLt',
+    placeholder: 'Just go go',
+    avatar: 'mp',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'en'
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-150269506-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>

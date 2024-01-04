@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Tạo vue component library và publish nó lên npm trong 5 phút | Titblog&#39;s</title>
+  <meta name="description" content="Mở đầuChào các bạn, từ trước đến giờ mỗi khi code chức năng gì đó chắc hẳn việc đầu tiên mình đều nghĩ đến có thư viện nào hỗ trợ việc đó không và lao ngay lên https:&#x2F;&#x2F;www.npmjs.com search thử. Việc s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tạo vue component library và publish nó lên npm trong 5 phút">
+<meta property="og:url" content="https://phamtuananh1996.github.io/2020/12/21/tao-vue-component-library-va-publish-no-len-npm-trong-5-phut/index.html">
+<meta property="og:site_name" content="Phạm Tuấn Anh">
+<meta property="og:description" content="Mở đầuChào các bạn, từ trước đến giờ mỗi khi code chức năng gì đó chắc hẳn việc đầu tiên mình đều nghĩ đến có thư viện nào hỗ trợ việc đó không và lao ngay lên https:&#x2F;&#x2F;www.npmjs.com search thử. Việc s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.viblo.asia/189e21c8-432c-4777-8321-45f409855f3f.jpg">
+<meta property="og:image" content="https://images.viblo.asia/85df85cd-6752-4c31-847b-d2051786d458.png">
+<meta property="og:image" content="https://images.viblo.asia/69d02ea2-183a-4094-aed3-fd6eee778ac0.gif">
+<meta property="og:image" content="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png">
+<meta property="og:image" content="https://images.viblo.asia/444454dc-85ee-4e55-9f0a-4310d97e7f2d.gif">
+<meta property="article:published_time" content="2020-12-21T11:22:12.000Z">
+<meta property="article:modified_time" content="2024-01-04T00:39:10.962Z">
+<meta property="article:author" content="Phạm Tuấn Anh">
+<meta property="article:tag" content="vuejs">
+<meta property="article:tag" content="npm">
+<meta property="article:tag" content="package">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.viblo.asia/189e21c8-432c-4777-8321-45f409855f3f.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://phamtuananh1996.github.io/2020/12/21/tao-vue-component-library-va-publish-no-len-npm-trong-5-phut/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Phạm Tuấn Anh" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://www.facebook.com/tittittit1996" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Phạm Tuấn Anh</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hà Nội, Việt Nam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>"Pursue excellence, and success will follow you"</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Caddy-Server/" rel="tag">Caddy Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie/" rel="tag">cookie</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/crud/" rel="tag">crud</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/extension/" rel="tag">extension</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/facebook/" rel="tag">facebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k6-io/" rel="tag">k6.io</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/" rel="tag">laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nuxtjs/" rel="tag">nuxtjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/package/" rel="tag">package</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/performence/" rel="tag">performence</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/" rel="tag">server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/session/" rel="tag">session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socket-io/" rel="tag">socket.io</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/trick/" rel="tag">trick</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unit-test/" rel="tag">unit test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuejs/" rel="tag">vuejs</a><span class="tag-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Caddy-Server/" style="font-size: 13px;">Caddy Server</a> <a href="/tags/cookie/" style="font-size: 13px;">cookie</a> <a href="/tags/crud/" style="font-size: 13px;">crud</a> <a href="/tags/extension/" style="font-size: 13.25px;">extension</a> <a href="/tags/facebook/" style="font-size: 13px;">facebook</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/javascript/" style="font-size: 14px;">javascript</a> <a href="/tags/k6-io/" style="font-size: 13.25px;">k6.io</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/npm/" style="font-size: 13px;">npm</a> <a href="/tags/nuxtjs/" style="font-size: 13.25px;">nuxtjs</a> <a href="/tags/package/" style="font-size: 13px;">package</a> <a href="/tags/performence/" style="font-size: 13.25px;">performence</a> <a href="/tags/server/" style="font-size: 13.25px;">server</a> <a href="/tags/session/" style="font-size: 13px;">session</a> <a href="/tags/socket-io/" style="font-size: 13px;">socket.io</a> <a href="/tags/test/" style="font-size: 13.25px;">test</a> <a href="/tags/trick/" style="font-size: 13px;">trick</a> <a href="/tags/unit-test/" style="font-size: 13px;">unit test</a> <a href="/tags/vuejs/" style="font-size: 13.75px;">vuejs</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/01/04/recommendlaravel-dat-ten-sao-cho-chuan/" class="title">Recommend(Laravel): Đặt tên sao cho chuẩn :))</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-01-04T00:39:10.962Z" itemprop="datePublished">04-01-2024</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2022/06/30/javascript-quiz/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/30/javascript-quiz/" class="title">Những câu hỏi JavaScript trình độ Advanced</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-30T09:02:40.000Z" itemprop="datePublished">30-06-2022</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-2/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 2 InfluxDB + Grafana)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:37:46.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/kiem-tra-chiu-tai-cua-server-voi-k6io-phan-1/" class="title">Kiểm tra chịu tải của server với K6.io (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:35:33.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/11/25/huong-dan-nguoi-dung-ngay-tren-chinh-website-cua-ban-voi-vue-tour/" class="title">Hướng dẫn người dùng ngay trên chính website của bạn với vue-tour</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-11-25T09:33:43.000Z" itemprop="datePublished">25-11-2021</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-tao-vue-component-library-va-publish-no-len-npm-trong-5-phut" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Tạo vue component library và publish nó lên npm trong 5 phút
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/12/21/tao-vue-component-library-va-publish-no-len-npm-trong-5-phut/" class="article-date">
+	  <time datetime="2020-12-21T11:22:12.000Z" itemprop="datePublished">21-12-2020</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/npm/" rel="tag">npm</a>, <a class="article-tag-link" href="/tags/package/" rel="tag">package</a>, <a class="article-tag-link" href="/tags/vuejs/" rel="tag">vuejs</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/12/21/tao-vue-component-library-va-publish-no-len-npm-trong-5-phut/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 9(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Mo-dau"><a href="#Mo-dau" class="headerlink" title="Mở đầu"></a>Mở đầu</h1><p>Chào các bạn, từ trước đến giờ mỗi khi code chức năng gì đó chắc hẳn việc đầu tiên mình đều nghĩ đến có thư viện nào hỗ trợ việc đó không và lao ngay lên <a href="https://www.npmjs.com" target="_blank" rel="noopener">https://www.npmjs.com</a> search thử. Việc sử dụng thư viện có sẵn giúp mình tiết kiệm được rất nhiều thời gian và công sức khi code. Vừa dùng thư viện mình vừa nghĩ cảm ơn công động đã tạo ra thư viện awesome này giúp mình khá nhiều trong công việc.</p>
+<p><img src="https://images.viblo.asia/189e21c8-432c-4777-8321-45f409855f3f.jpg" alt=""></p>
+<p>Rồi mình cũng muốn viết ra 1 cái gì đó đơn giản để dùng được về sau. Và giới thiệu cho bạn bè cùng contribute hay đơn giản là cho bạn bè dùng thử và ném đá thư viện của mình cũng được. Cảm giác được thấy ai đó npm install thư viện của mình chắc phê phải biết.  Mơ mộng thế thôi chứ giờ mình mới tìm hiểu để viết 1 component library</p>
+<h1 id="Tao-component-library"><a href="#Tao-component-library" class="headerlink" title="Tạo component library"></a>Tạo component library</h1><p>Để tạo 1 component library mình dùng package <code>vue-sfc-rollup</code> . Package giúp  tạo ra Vue Single File Component (SFC) hoặc library of multiple SFCs 1 cách nhanh chóng</p>
+<p>Chi tiết các bạn có thể xem qua tại đây <a href="https://github.com/team-innovation/vue-sfc-rollup" target="_blank" rel="noopener">https://github.com/team-innovation/vue-sfc-rollup</a></p>
+<p>Đầu tiên install package về:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vue-sfc-rollup</span><br></pre></td></tr></table></figure>
+
+<p>Tiếp theo chạy lệnh:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sfc-init</span><br></pre></td></tr></table></figure>
+<p>Để tạo ra 1 Single File Component (SFC). Đừng quên chọn các tùy chọn</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Is this a single component or a library? Library</span><br><span class="line">What is the npm name of your library? sprite-to-gif (Đây là tiên thư viện)</span><br><span class="line">Will this library be written in JavaScript or TypeScript? JavaScript (Chọn dùng JavaScript hay TypeScript)</span><br><span class="line">Enter a location to save the library files (Đường dẫn đến thư mục bạn muốn lưu)</span><br></pre></td></tr></table></figure>
+
+<p>Sau setup xong mình sẽ có file package.json như thế này</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"sprite-to-gif"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">""</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"dist/sprite-to-gif.ssr.js"</span>,</span><br><span class="line">  <span class="attr">"browser"</span>: <span class="string">"dist/sprite-to-gif.esm.js"</span>,</span><br><span class="line">  <span class="attr">"module"</span>: <span class="string">"dist/sprite-to-gif.esm.js"</span>,</span><br><span class="line">  <span class="attr">"unpkg"</span>: <span class="string">"dist/sprite-to-gif.min.js"</span>,</span><br><span class="line">  <span class="attr">"files"</span>: [</span><br><span class="line">    <span class="string">"dist/*"</span>,</span><br><span class="line">    <span class="string">"src/**/*.vue"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"serve"</span>: <span class="string">"vue-cli-service serve dev/serve.js"</span>,</span><br><span class="line">    <span class="attr">"build"</span>: <span class="string">"cross-env NODE_ENV=production rollup --config build/rollup.config.js"</span>,</span><br><span class="line">    <span class="attr">"build:ssr"</span>: <span class="string">"cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs"</span>,</span><br><span class="line">    <span class="attr">"build:es"</span>: <span class="string">"cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es"</span>,</span><br><span class="line">    <span class="attr">"build:unpkg"</span>: <span class="string">"cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;&#125;,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"@babel/core"</span>: <span class="string">"^7.9.0"</span>,</span><br><span class="line">    <span class="attr">"@babel/preset-env"</span>: <span class="string">"^7.9.5"</span>,</span><br><span class="line">    <span class="attr">"@rollup/plugin-alias"</span>: <span class="string">"^2.2.0"</span>,</span><br><span class="line">    <span class="attr">"@rollup/plugin-commonjs"</span>: <span class="string">"^11.1.0"</span>,</span><br><span class="line">    <span class="attr">"@rollup/plugin-replace"</span>: <span class="string">"^2.3.2"</span>,</span><br><span class="line">    <span class="attr">"@vue/cli-plugin-babel"</span>: <span class="string">"^4.3.1"</span>,</span><br><span class="line">    <span class="attr">"@vue/cli-service"</span>: <span class="string">"^4.3.1"</span>,</span><br><span class="line">    <span class="attr">"cross-env"</span>: <span class="string">"^7.0.2"</span>,</span><br><span class="line">    <span class="attr">"minimist"</span>: <span class="string">"^1.2.5"</span>,</span><br><span class="line">    <span class="attr">"rollup"</span>: <span class="string">"^2.7.3"</span>,</span><br><span class="line">    <span class="attr">"rollup-plugin-babel"</span>: <span class="string">"^4.4.0"</span>,</span><br><span class="line">    <span class="attr">"rollup-plugin-terser"</span>: <span class="string">"^5.3.0"</span>,</span><br><span class="line">    <span class="attr">"rollup-plugin-vue"</span>: <span class="string">"^5.1.6"</span>,</span><br><span class="line">    <span class="attr">"vue"</span>: <span class="string">"^2.6.11"</span>,</span><br><span class="line">    <span class="attr">"vue-template-compiler"</span>: <span class="string">"^2.6.11"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"peerDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"vue"</span>: <span class="string">"^2.6.11"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"engines"</span>: &#123;</span><br><span class="line">    <span class="attr">"node"</span>: <span class="string">"&gt;=10"</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>Cd vào forder và chạy lệnh npm install để cài đặt các package cần thiết</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd path/to/my-component-or-lib</span><br><span class="line"></span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<p>Tiếp theo chạy lệnh <code>npm run serve</code>. Và truy cập vào  <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> để xem component của mình.</p>
+<p><img src="https://images.viblo.asia/85df85cd-6752-4c31-847b-d2051786d458.png" alt=""></p>
+<p>Vậy là đã setup thành công. đây là component mẫu của package</p>
+<p>Tiếp theo là nghĩ ý tưởng xem component của mình phục vụ cho mục đích gì và code nó thôi.Thì trước mình có viết 1 bài viblo về việc <a href="https://viblo.asia/p/bien-anh-sprites-thanh-anh-dong-voi-vuejs-ByEZkGQWZQ0" target="_blank" rel="noopener">biến ảnh sprites thành ảnh động với vue</a>  Các bạn có thể xem qua. Bài đó đã có code component rồi. nên mình chỉ đem bỏ vào file trong thư mục Src/lib-components là được. Và mình đặt tên component của mình là <code>sprite-to-gif</code> nhé</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div :style&#x3D;&quot;style&quot;&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    image: String,</span><br><span class="line">    height: Number,</span><br><span class="line">    width: Number,</span><br><span class="line">    loop: Number,</span><br><span class="line">    frame: Number,</span><br><span class="line">    max: Number,</span><br><span class="line">    column: Number,</span><br><span class="line">    row: Number,</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted() &#123;</span><br><span class="line">    this.play()</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      style: &#123;</span><br><span class="line">        width: this.width + &#39;px&#39;,</span><br><span class="line">        height: this.height + &#39;px&#39;,</span><br><span class="line">        background: &#96;url($&#123;this.image&#125;)&#96;,</span><br><span class="line">        backgroundSize: &#96;$&#123;this.width * this.column&#125;px $&#123;this.height * this.row&#125;px&#96;,</span><br><span class="line">        backgroundPosition: &#39;0px 0px&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    play() &#123;</span><br><span class="line">      let i &#x3D; 0</span><br><span class="line">      let position &#x3D; &#123;</span><br><span class="line">        x: 0,</span><br><span class="line">        y: 0,</span><br><span class="line">        loop: 0,</span><br><span class="line">      &#125;</span><br><span class="line">      const playTimer &#x3D; setInterval(() &#x3D;&gt; &#123;</span><br><span class="line">        i++;</span><br><span class="line">        if(i % this.column) &#123;</span><br><span class="line">          position.x -&#x3D; this.width; </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          position.y -&#x3D; this.height; </span><br><span class="line">          position.x &#x3D; 0;</span><br><span class="line">        &#125;</span><br><span class="line">        if (i &#x3D;&#x3D; this.max) &#123;</span><br><span class="line">          i &#x3D; 0</span><br><span class="line">          position.y &#x3D; 0; </span><br><span class="line">          position.x &#x3D; 0;</span><br><span class="line">          position.loop++;</span><br><span class="line">          if(position.loop &gt;&#x3D; this.loop) &#123;</span><br><span class="line">            clearInterval(playTimer)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        this.$set(this.style, &#39;backgroundPosition&#39;, &#96;$&#123;position.x&#125;px $&#123;position.y&#125;px&#96;)</span><br><span class="line">      &#125;, 1000&#x2F;this.frame);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là xong. Để test component của mình thì mình tìm đến file <code>sprite-to-gif/dev/serve.vue</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">import Vue from &#39;vue&#39;;</span><br><span class="line">import &#123; SpriteToGif &#125; from &#39;@&#x2F;entry&#39;;</span><br><span class="line"></span><br><span class="line">export default Vue.extend(&#123;</span><br><span class="line">  name: &#39;ServeDev&#39;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    SpriteToGif,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">    &lt;sprite-to-gif </span><br><span class="line">      image&#x3D;&quot;https:&#x2F;&#x2F;images.viblo.asia&#x2F;a28b8126-1298-4ca7-a507-53865b32238d.png&quot;</span><br><span class="line">      :width&#x3D;&quot;100&quot;</span><br><span class="line">      :height&#x3D;&quot;100&quot;</span><br><span class="line">      :column&#x3D;&quot;7&quot;</span><br><span class="line">      :row&#x3D;&quot;4&quot;</span><br><span class="line">      :max&#x3D;&quot;27&quot;</span><br><span class="line">      :frame&#x3D;&quot;20&quot;</span><br><span class="line">      :loop&#x3D;&quot;10&quot;</span><br><span class="line">    &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Truy cập <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> để xem thành quả</p>
+<p><img src="https://images.viblo.asia/69d02ea2-183a-4094-aed3-fd6eee778ac0.gif" alt=""></p>
+<p>Vậy là từ ảnh này mình đã biến nó thành động như kia rồi <img src="https://images.viblo.asia/a28b8126-1298-4ca7-a507-53865b32238d.png" alt=""></p>
+<p>Giờ publish lên npm để mọi người trên toàn thế giới có thể dùng component của mình thôi :)</p>
+<h1 id="Publish-len-npm"><a href="#Publish-len-npm" class="headerlink" title="Publish lên npm"></a>Publish lên npm</h1><p>Đầu tiên chạy lệnh build</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<p>Tiếp theo mình sẽ chạy lệnh để thêm tài khoản npm của mình vào. Các bạn có thể đăng ký tài khoản của mình ở <a href="https://www.npmjs.com/signup" target="_blank" rel="noopener">https://www.npmjs.com/signup</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm adduser</span><br></pre></td></tr></table></figure>
+<p>Cuối cùng chạy lệnh để publish thư viện của mình</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm publish</span><br></pre></td></tr></table></figure>
+
+<p>Vậy là component của mình đã được publish tại đây : <a href="https://www.npmjs.com/package/sprite-to-gif" target="_blank" rel="noopener">https://www.npmjs.com/package/sprite-to-gif</a></p>
+<p>Giờ chỉ cần 1 lệnh đơn giản là bạn có thể có component của mình rồi:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i sprite-to-gif</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://images.viblo.asia/444454dc-85ee-4e55-9f0a-4310d97e7f2d.gif" alt=""></p>
+<p> Mà chưa xong. Mình phải viết doc cho component nữa (Cái này để sau vậy) </p>
+<p> Push thư viện mình vừa viết lên github: <a href="https://github.com/phamtuananh1996/sprite-to-gif" target="_blank" rel="noopener">https://github.com/phamtuananh1996/sprite-to-gif</a></p>
+<h1 id="Tong-ket"><a href="#Tong-ket" class="headerlink" title="Tổng kết"></a>Tổng kết</h1><p>Vậy là mình đã viết và publish component thành công lên npm 1 cách nhanh chóng và đơn giản.<br>Hy vọng sau bài này nếu bạn có 1 chức năng gì đó hay. Đừng để nó dưới máy rồi lẵng quên nó mà hãy push nó lên npm để mọi người cùng sử dụng Và github để lưu trữ cũng như để mọi người cùng contribute</p>
+<p>Hẹn các bạn vào các bài viết tiếp theo, nếu hay các upvote và comment gạch đá nhiệt tình nhé.</p>
+<p>Đọc thêm nhiều bài viết của mình ở đây <a href="https://phamtuananh1996.github.io">https://phamtuananh1996.github.io</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://www.facebook.com/tittittit1996" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://www.facebook.com/tittittit1996" target="_blank"><span class="text-dark">Phạm Tuấn Anh</span><small class="ml-1x"></small></a></h3>
+        <div></div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/11/25/5-good-practices-minh-dang-su-dung-trong-vuejs/" title="5 Good Practices mình đang sử dụng trong Vuejs"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/09/16/xay-dung-ung-dung-chat-voi-nguoi-la-voi-socketio-cung-su-tham-gia-cua-vuejs/" title="Xây dựng ứng dụng &#34;chat với người lạ&#34; với socketio cùng sự tham gia của vuejs"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="facebook,twitter" data-mobile-sites="facebook,twitter"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="donate-payimg">
+            <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+          </div>
+          <p class="text-muted mv">Scan this qrcode</p>
+          <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/phamtuananh1996" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/tittittit1996" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <!-- <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div> -->
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'rO5OYEHflyhVu4B8epbPADuD-MdYXbMMI',
+    appKey: 'Ryxe8wHgDB4OGyE8TxsdkMLt',
+    placeholder: 'Just go go',
+    avatar: 'mp',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'en'
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-150269506-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
